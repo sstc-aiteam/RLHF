@@ -9,6 +9,10 @@
 1. **Qwen2_5_GRPO.py** - 核心 GRPO 訓練器實現
 2. **Grpo_fastapi_3.py** - FastAPI 網頁服務接口
 3. **training_data.zip** - 訓練/測試資料
+4. **引用相關套件**
+    - TRL https://github.com/huggingface/trl
+    - Verl https://github.com/volcengine/verl
+    - EasyR1 https://github.com/hiyouga/EasyR1
 
 ### 特色功能
 
