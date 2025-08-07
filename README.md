@@ -8,7 +8,7 @@
 
 1. **Qwen2_5_GRPO.py** - 核心 GRPO 訓練器實現
 2. **Grpo_fastapi_3.py** - FastAPI 網頁服務接口
-4  **test_with_lora_comparison.py** - 測試訓練好的GRPO模型
+3. **test_with_lora_comparison.py** - 測試訓練好的GRPO模型
 4. **training_data.zip** - 訓練/測試資料
 5. **引用相關套件**
     - TRL https://github.com/huggingface/trl
