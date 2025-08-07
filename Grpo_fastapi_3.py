@@ -687,25 +687,6 @@ async def get_job_status(job_id: str):
         raise HTTPException(status_code=404, detail="任務不存在")
     return training_jobs[job_id]
 
-@app.delete("/jobs/{job_id}", deprecated=True)
-async def cancel_job(job_id: str):
-    """取消訓練任務\n可能會導致GPU錯誤，暫停使用"""
-    if job_id not in training_jobs:
-        raise HTTPException(status_code=404, detail="任務不存在")
-    
-    job = training_jobs[job_id]
-    
-    # 檢查任務狀態
-    if job.status in [TrainingStatus.COMPLETED, TrainingStatus.FAILED, TrainingStatus.CANCELLED]:
-        raise HTTPException(status_code=400, detail="任務已結束，無法取消")
-    
-    # 設置取消標記
-    training_processes[job_id] = False
-    
-    # 立即更新狀態
-    training_jobs[job_id].status = TrainingStatus.CANCELLED
-    
-    return {"message": "任務取消指令已發送，訓練將在下一個檢查點停止"}
 
 @app.get("/jobs/{job_id}/download")
 async def download_model(job_id: str):
@@ -730,6 +711,26 @@ async def download_model(job_id: str):
         media_type='application/zip',
         filename=f"{job.job_name}_model.zip"
     )
+
+@app.delete("/jobs/{job_id}", deprecated=True)
+async def cancel_job(job_id: str):
+    """取消訓練任務\n可能會導致GPU錯誤，暫停使用"""
+    if job_id not in training_jobs:
+        raise HTTPException(status_code=404, detail="任務不存在")
+    
+    job = training_jobs[job_id]
+    
+    # 檢查任務狀態
+    if job.status in [TrainingStatus.COMPLETED, TrainingStatus.FAILED, TrainingStatus.CANCELLED]:
+        raise HTTPException(status_code=400, detail="任務已結束，無法取消")
+    
+    # 設置取消標記
+    training_processes[job_id] = False
+    
+    # 立即更新狀態
+    training_jobs[job_id].status = TrainingStatus.CANCELLED
+    
+    return {"message": "任務取消指令已發送，訓練將在下一個檢查點停止"}
 
 if __name__ == "__main__":
     import uvicorn
