@@ -581,7 +581,7 @@ async def root():
             "data_format": "/data-format - 獲取數據格式說明",
             "upload": "/upload-data - 上傳ZIP訓練數據包",
             "files": "/files - 查看已上傳文件",
-            "train": "/train - 開始訓練",
+            "train": "/train - 開始訓練, 使用Qwen2.5VL-3B 下載網址 https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/tree/main",
             "jobs": "/jobs - 查看訓練任務"
         }
     }
@@ -645,7 +645,10 @@ async def list_uploaded_files():
 
 @app.post("/train")
 async def start_training(training_request: TrainingRequest, background_tasks: BackgroundTasks):
-    """開始訓練"""
+    """開始訓練\n
+    base_model_path:使用Qwen2.5VL-3B\n 
+    下載網址 https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct/tree/main
+    """
     if training_request.data_file_id not in uploaded_files:
         raise HTTPException(status_code=404, detail="數據文件不存在")
     
@@ -684,9 +687,9 @@ async def get_job_status(job_id: str):
         raise HTTPException(status_code=404, detail="任務不存在")
     return training_jobs[job_id]
 
-@app.delete("/jobs/{job_id}")
+@app.delete("/jobs/{job_id}", deprecated=True)
 async def cancel_job(job_id: str):
-    """取消訓練任務"""
+    """取消訓練任務\n可能會導致GPU錯誤，暫停使用"""
     if job_id not in training_jobs:
         raise HTTPException(status_code=404, detail="任務不存在")
     
