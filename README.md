@@ -174,8 +174,10 @@ output_directory/
 ## 使用方法
 
 ### 1. 啟動服務
-
-```bash
+```
+cd llm_vision
+source .venv/bin/activate
+cd grpo_push
 python Grpo_fastapi_3.py
 ```
 
