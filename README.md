@@ -181,7 +181,8 @@ cd grpo_push
 python Grpo_fastapi_3.py
 ```
 
-服務將在 `http://localhost:8000` 啟動
+- 服務 `http://$HOST:8000`
+- API列表 `http://$HOST:8000/docs`
 
 ### 2. API 端點
 
